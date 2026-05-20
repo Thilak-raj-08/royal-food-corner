@@ -1,0 +1,28 @@
+# Render.com deployment config (alternative to Railway)
+services:
+  - type: web
+    name: royal-food-corner
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_URL
+        sync: false
+      - key: DB_CONNECTION
+        value: mysql
+      - key: SESSION_DRIVER
+        value: file
+      - key: FORCE_HTTPS
+        value: "true"
+
+databases:
+  - name: royal-food-mysql
+    plan: free
+    databaseName: royal_food_corner
+    user: royal
