@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\GalleryController as AdminGalleryController;
 use App\Http\Controllers\Admin\MessageController as AdminMessageController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CartController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 
 /* ------------------------------------------------------------------
@@ -29,6 +31,10 @@ Route::get('/menu/{product}', [MenuController::class, 'show'])->name('menu.show'
 Route::get('/gallery', [GalleryController::class, 'index'])->name('gallery.index');
 
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
+/* ------------- Reservations (public — guests can book) ------------- */
+Route::get('/reservations', [ReservationController::class, 'create'])->name('reservations.create');
+Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
 
 /* ------------- Cart (works for guests too) ------------- */
 Route::prefix('cart')->name('cart.')->group(function () {
@@ -85,6 +91,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/gallery/{image}', [AdminGalleryController::class, 'destroy'])->name('gallery.destroy');
 
         Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+
+        Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
+        Route::put('/reservations/{reservation}', [AdminReservationController::class, 'update'])->name('reservations.update');
+        Route::delete('/reservations/{reservation}', [AdminReservationController::class, 'destroy'])->name('reservations.destroy');
 
         Route::get('/messages', [AdminMessageController::class, 'index'])->name('messages.index');
         Route::delete('/messages/{message}', [AdminMessageController::class, 'destroy'])->name('messages.destroy');

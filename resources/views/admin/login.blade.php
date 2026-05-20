@@ -7,53 +7,46 @@
     <title>Admin Login · Royal Food Corner</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen grid place-items-center p-4">
-
-<div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-    <div class="absolute -top-32 -left-24 h-96 w-96 rounded-full bg-royal-600/40 blur-3xl"></div>
-    <div class="absolute -bottom-32 -right-24 h-[28rem] w-[28rem] rounded-full bg-gold-500/15 blur-3xl"></div>
-</div>
+<body class="min-h-screen grid place-items-center p-4 bg-cocoa-900 bg-cream-noise">
 
 <div class="w-full max-w-md">
-    <div class="glass-card">
+    <div class="card p-8">
         <div class="text-center mb-7">
-            <div class="h-16 w-16 mx-auto rounded-2xl bg-gradient-to-br from-royal-500 via-royal-700 to-royal-950 grid place-items-center text-2xl font-black shadow-glow">
-                R<span class="text-gold-400">F</span>C
-            </div>
-            <h1 class="text-3xl font-display font-bold mt-4">Admin Portal</h1>
-            <p class="text-sm text-white/60 mt-1">Sign in to manage Royal Food Corner.</p>
+            <div class="rfc-monogram mx-auto !h-16 !w-16 !text-2xl">RFC</div>
+            <h1 class="font-display text-3xl font-bold text-cocoa-900 mt-4">Admin Portal</h1>
+            <p class="text-sm text-cocoa-500 mt-1">Sign in to manage Royal Food Corner.</p>
         </div>
 
         @if (session('error'))
-            <div class="alert alert-error mb-4"><i class="fa-solid fa-circle-exclamation"></i>{{ session('error') }}</div>
+            <div class="alert alert-error mb-4"><i class="fa-solid fa-circle-exclamation text-signature-500"></i>{{ session('error') }}</div>
         @endif
 
         <form action="{{ route('admin.login') }}" method="POST" class="space-y-4">
             @csrf
             <div>
-                <label class="text-xs uppercase tracking-wider text-white/60">Username</label>
-                <input class="glass-input mt-1" name="username" value="{{ old('username') }}" required autofocus>
+                <label class="text-xs uppercase tracking-wider font-semibold text-cocoa-600">Username</label>
+                <input class="input mt-1.5" name="username" value="{{ old('username') }}" required autofocus>
             </div>
             <div>
-                <label class="text-xs uppercase tracking-wider text-white/60">Password</label>
-                <input class="glass-input mt-1" type="password" name="password" required>
+                <label class="text-xs uppercase tracking-wider font-semibold text-cocoa-600">Password</label>
+                <input class="input mt-1.5" type="password" name="password" required>
             </div>
-            <label class="flex items-center gap-2 text-sm text-white/70">
-                <input type="checkbox" name="remember" class="rounded bg-white/10 border-white/20 text-royal-500 focus:ring-royal-400">
+            <label class="flex items-center gap-2 text-sm text-cocoa-700">
+                <input type="checkbox" name="remember" class="rounded border-cocoa-300 text-signature-500 focus:ring-signature-500">
                 Remember me
             </label>
             <button class="btn-primary w-full"><i class="fa-solid fa-shield-halved"></i>Login</button>
         </form>
 
-        <p class="text-center text-xs text-white/40 mt-6">
-            <a href="{{ route('home') }}" class="hover:text-white">← Back to site</a>
+        <p class="text-center text-xs text-cocoa-400 mt-6 pt-4 border-t border-cream-300">
+            <a href="{{ route('home') }}" class="hover:text-cocoa-700">← Back to site</a>
         </p>
     </div>
-    <p class="text-center text-[11px] text-white/40 mt-4">Default credentials: <code class="text-gold-400">admin / admin123</code></p>
+    <p class="text-center text-[11px] text-cream-200/60 mt-4">Default: <code class="text-gold-400">admin / admin123</code></p>
 </div>
 
 </body>
