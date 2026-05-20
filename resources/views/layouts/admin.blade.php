@@ -27,6 +27,7 @@
 
         @php $nav = [
             ['Dashboard',    'admin.dashboard',          'fa-gauge-high'],
+            ['Products',     'admin.products.index',     'fa-bowl-food'],
             ['Orders',       'admin.orders.index',       'fa-bag-shopping'],
             ['Reservations', 'admin.reservations.index', 'fa-calendar-days'],
             ['Gallery',      'admin.gallery.index',      'fa-image'],

@@ -5,11 +5,17 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    public function index()
+    {
+        return view('admin.products', [
+            'products' => Product::orderBy('category')->orderBy('item_name')->get(),
+        ]);
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -23,12 +29,7 @@ class ProductController extends Controller
         $data['image'] = $this->storeImage($request->file('image'));
         Product::create($data);
 
-        return redirect()->route('admin.dashboard')->with('success', 'Product added successfully.');
-    }
-
-    public function edit(Product $product)
-    {
-        return view('admin.product-edit', compact('product'));
+        return back()->with('success', 'Product added successfully.');
     }
 
     public function update(Request $request, Product $product)
@@ -46,13 +47,13 @@ class ProductController extends Controller
         }
 
         $product->update($data);
-        return redirect()->route('admin.dashboard')->with('success', 'Product updated.');
+        return back()->with('success', 'Product updated.');
     }
 
     public function destroy(Product $product)
     {
         $product->delete();
-        return redirect()->route('admin.dashboard')->with('success', 'Product deleted.');
+        return back()->with('success', 'Product deleted.');
     }
 
     private function storeImage($file): string
