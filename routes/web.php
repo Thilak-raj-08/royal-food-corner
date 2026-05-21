@@ -16,6 +16,7 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\NewsletterController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
@@ -35,6 +36,9 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 /* ------------- Reservations (public — guests can book) ------------- */
 Route::get('/reservations', [ReservationController::class, 'create'])->name('reservations.create');
 Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+
+/* ------------- Newsletter ------------- */
+Route::post('/newsletter/subscribe', [NewsletterController::class, 'subscribe'])->name('newsletter.subscribe');
 
 /* ------------- Cart (works for guests too) ------------- */
 Route::prefix('cart')->name('cart.')->group(function () {
@@ -60,6 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/checkout', [CheckoutController::class, 'store'])->name('checkout.store');
 
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/orders/{order}', [OrderController::class, 'show'])->name('orders.show');
     Route::delete('/orders/item/{item}', [OrderController::class, 'destroyItem'])->name('orders.item.destroy');
 
     Route::get('/account', [AccountController::class, 'edit'])->name('account.edit');
@@ -91,6 +96,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::delete('/gallery/{image}', [AdminGalleryController::class, 'destroy'])->name('gallery.destroy');
 
         Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+        Route::put('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
 
         Route::get('/reservations', [AdminReservationController::class, 'index'])->name('reservations.index');
         Route::put('/reservations/{reservation}', [AdminReservationController::class, 'update'])->name('reservations.update');

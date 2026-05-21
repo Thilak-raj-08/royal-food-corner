@@ -89,21 +89,35 @@
         @else
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                 @foreach ($products as $product)
-                    <a href="{{ route('menu.show', $product) }}" class="card card-hover group block overflow-hidden">
-                        <div class="relative aspect-[4/3] overflow-hidden">
-                            <img src="{{ $product->image_url }}" alt="{{ $product->item_name }}"
-                                 class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy">
-                            <span class="absolute top-3 left-3 chip-gold !text-[10px]">{{ $product->category }}</span>
-                        </div>
-                        <div class="p-4">
-                            <h3 class="font-display font-bold text-cocoa-900 leading-tight">{{ $product->item_name }}</h3>
-                            <p class="text-xs text-cocoa-500 mt-1.5 line-clamp-1">{{ $product->description }}</p>
+                    <div class="card card-hover group overflow-hidden flex flex-col">
+                        <a href="{{ route('menu.show', $product) }}" class="block">
+                            <div class="relative aspect-[4/3] overflow-hidden">
+                                <img src="{{ $product->image_url }}" alt="{{ $product->item_name }}"
+                                     class="w-full h-full object-cover group-hover:scale-110 transition duration-700" loading="lazy">
+                                <span class="absolute top-3 left-3 chip-gold !text-[10px]">{{ $product->category }}</span>
+                                @if ($product->is_featured)
+                                    <span class="absolute top-3 right-3 chip-red !text-[10px]"><i class="fa-solid fa-star"></i>Featured</span>
+                                @endif
+                            </div>
+                        </a>
+                        <div class="p-4 flex flex-col flex-1">
+                            <a href="{{ route('menu.show', $product) }}">
+                                <h3 class="font-display font-bold text-cocoa-900 leading-tight">{{ $product->item_name }}</h3>
+                            </a>
+                            <div class="mt-2"><x-product-badges :product="$product" /></div>
+                            <p class="text-xs text-cocoa-500 mt-2 line-clamp-1">{{ $product->description }}</p>
                             <div class="flex items-center justify-between mt-3 pt-3 border-t border-cream-300">
                                 <span class="text-lg font-bold text-signature-500">Rs. {{ number_format($product->price, 0) }}</span>
-                                <span class="text-xs font-semibold text-cocoa-600 group-hover:text-signature-500 flex items-center gap-1">View <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                                <form action="{{ route('cart.add', $product) }}" method="POST" class="contents">
+                                    @csrf
+                                    <input type="hidden" name="qty" value="1">
+                                    <button type="submit" class="btn-primary !py-2 !px-4 text-xs" title="Quick add">
+                                        <i class="fa-solid fa-cart-plus"></i>Add
+                                    </button>
+                                </form>
                             </div>
                         </div>
-                    </a>
+                    </div>
                 @endforeach
             </div>
         @endif

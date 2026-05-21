@@ -68,9 +68,22 @@
                                 </td>
                                 <td class="text-right font-bold text-signature-500">Rs. {{ number_format($order->total_amount, 0) }}</td>
                                 <td class="text-right">
-                                    <button @click.stop="$dispatch('open-modal', 'order-{{ $order->id }}')" class="h-9 w-9 rounded-lg bg-cream-200 hover:bg-cream-300 text-cocoa-700">
-                                        <i class="fa-solid fa-eye"></i>
-                                    </button>
+                                    @php
+                                        $statusColors = [
+                                            'pending'   => 'bg-amber-50 text-amber-700 border-amber-200',
+                                            'preparing' => 'bg-sky-50 text-sky-700 border-sky-200',
+                                            'ready'     => 'bg-violet-50 text-violet-700 border-violet-200',
+                                            'delivered' => 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                                            'cancelled' => 'bg-signature-50 text-signature-700 border-signature-200',
+                                        ];
+                                        $color = $statusColors[$order->status] ?? $statusColors['pending'];
+                                    @endphp
+                                    <div class="flex items-center justify-end gap-1.5">
+                                        <span class="chip border {{ $color }} !text-[10px]">{{ ucfirst($order->status) }}</span>
+                                        <button @click.stop="$dispatch('open-modal', 'order-{{ $order->id }}')" class="h-9 w-9 rounded-lg bg-cream-200 hover:bg-cream-300 text-cocoa-700">
+                                            <i class="fa-solid fa-eye"></i>
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -147,6 +160,32 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+            </div>
+
+            {{-- Status workflow --}}
+            <div class="card-warm p-4">
+                <div class="text-[10px] uppercase tracking-[0.2em] font-bold text-cocoa-500 mb-3">Update Status</div>
+                @php
+                    $flow = [
+                        'pending'   => ['fa-clock',          'text-amber-600 bg-amber-50 border-amber-200'],
+                        'preparing' => ['fa-fire-burner',    'text-sky-600 bg-sky-50 border-sky-200'],
+                        'ready'     => ['fa-bell-concierge', 'text-violet-600 bg-violet-50 border-violet-200'],
+                        'delivered' => ['fa-check-double',   'text-emerald-600 bg-emerald-50 border-emerald-200'],
+                        'cancelled' => ['fa-ban',            'text-signature-600 bg-signature-50 border-signature-200'],
+                    ];
+                @endphp
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2">
+                    @foreach ($flow as $key => [$icon, $color])
+                        <form action="{{ route('admin.orders.status', $order) }}" method="POST">
+                            @csrf @method('PUT')
+                            <input type="hidden" name="status" value="{{ $key }}">
+                            <button class="w-full px-2 py-2.5 rounded-lg border-2 text-xs font-semibold transition flex flex-col items-center gap-1 {{ $order->status === $key ? $color . ' ring-2 ring-offset-1 ring-current' : 'border-cream-400 text-cocoa-500 hover:border-cocoa-400' }}">
+                                <i class="fa-solid {{ $icon }} text-base"></i>
+                                <span class="text-[10px] uppercase tracking-wider">{{ ucfirst($key) }}</span>
+                            </button>
+                        </form>
+                    @endforeach
                 </div>
             </div>
 

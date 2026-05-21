@@ -15,7 +15,7 @@ class CheckoutController extends Controller
     public function index()
     {
         if (Cart::totalQty() === 0) {
-            return redirect()->route('menu.index')->with('info', 'Your cart is empty.');
+            return redirect()->route('cart.index')->with('info', 'Your cart is empty. Add items before checkout.');
         }
 
         $lastOrder = Auth::user()?->orders()->latest()->first();
@@ -82,6 +82,6 @@ class CheckoutController extends Controller
 
         Cart::clear();
 
-        return redirect()->route('orders.index')->with('success', "Order #{$order->id} placed successfully!");
+        return redirect()->route('orders.show', $order)->with('success', "Order #{$order->id} placed successfully!");
     }
 }

@@ -33,6 +33,8 @@
                     </div>
                 </div>
 
+                <div class="mt-4"><x-product-badges :product="$product" size="lg" /></div>
+
                 <hr class="border-cream-400 my-6">
 
                 <p class="text-cocoa-700 leading-relaxed">{{ $product->description }}</p>

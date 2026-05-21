@@ -1,4 +1,25 @@
-<footer class="mt-24">
+<footer class="mt-24 print:hidden">
+
+    {{-- NEWSLETTER --}}
+    <section class="py-14 bg-cream-300/60 border-y border-cream-500">
+        <div class="max-w-5xl mx-auto px-4 lg:px-8">
+            <div class="card overflow-hidden grid md:grid-cols-[1fr_auto] gap-6 items-center p-7 md:p-9 bg-red-gradient !border-0">
+                <div class="text-white">
+                    <span class="font-script text-gold-300 text-2xl">Stay in the loop</span>
+                    <h3 class="font-display text-2xl md:text-3xl font-bold mt-1">Get exclusive offers & menu updates</h3>
+                    <p class="text-cream-100/80 mt-2 text-sm">Be the first to know about new dishes, festival specials, and weekend discounts.</p>
+                </div>
+                <form action="{{ route('newsletter.subscribe') }}" method="POST" class="flex flex-col sm:flex-row gap-2 min-w-0 md:w-96">
+                    @csrf
+                    <input type="email" name="email" required placeholder="your@email.com"
+                           class="flex-1 rounded-xl px-4 py-3 border-0 focus:ring-2 focus:ring-gold-400 text-cocoa-900 placeholder-cocoa-400">
+                    <button class="btn-gold whitespace-nowrap !py-3 !px-5">
+                        <i class="fa-solid fa-paper-plane"></i>Subscribe
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
 
     {{-- HOURS + MAP + INFO BAND --}}
     <section class="py-16 bg-cream-200/60 border-y border-cream-500">

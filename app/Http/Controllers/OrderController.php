@@ -14,6 +14,13 @@ class OrderController extends Controller
         return view('user.orders', compact('orders'));
     }
 
+    public function show(Order $order)
+    {
+        abort_unless($order->user_id === Auth::id(), 403);
+        $order->load('items', 'payment');
+        return view('user.order-success', compact('order'));
+    }
+
     public function destroyItem(OrderItem $item)
     {
         abort_unless($item->order->user_id === Auth::id(), 403);
