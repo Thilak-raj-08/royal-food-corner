@@ -1,0 +1,22 @@
+# Routes every request to Laravel's public/ folder.
+# Used by shared hosting (InfinityFree, Hostinger, etc.) where document
+# root cannot be changed away from the project root.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Redirect trailing slashes
+    RewriteRule ^(.*)/$ /$1 [L,R=301]
+
+    # Send everything to public/ folder
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+# Block direct access to sensitive files
+<FilesMatch "\.(env|env\.example|env\.production|env\.infinityfree.*|gitignore|gitattributes|json|lock|md|toml|yaml|yml|xml|sql)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to dotfiles (.git, .editorconfig, etc.)
+RedirectMatch 404 /\..*$
