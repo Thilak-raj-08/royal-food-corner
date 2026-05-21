@@ -7,6 +7,9 @@
 /vendor
 # Note: /public/build is committed so Vercel/Railway builds without npm step issues
 # Note: /public/images contains seed images & is committed
+# Static export folder (regenerate via .\export-static.ps1, deploy with Vercel CLI)
+/static
+/deploy.sql
 .env
 .env.backup
 .env.production
